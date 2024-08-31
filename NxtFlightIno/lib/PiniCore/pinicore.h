@@ -5,8 +5,7 @@
 * @date		12 Jun 2024
 * @author	PiniponSelvagem
 *
-* Copyright(C) 2024, PiniponSelvagem
-* All rights reserved.
+* Copyright(C) PiniponSelvagem
 *
 ***********************************************************************
 * Software that is described here, is for illustrative purposes only
@@ -19,5 +18,6 @@
 
 #include "drivers/button/button.h"
 #include "drivers/led/led.h"
+#include "drivers/rotaryencoder/rotaryencoder.h"
 
 #endif /* _PINICORE_H_ */

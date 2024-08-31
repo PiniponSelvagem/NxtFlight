@@ -5,8 +5,7 @@
 * @date		13 Jun 2024
 * @author	PiniponSelvagem
 *
-* Copyright(C) 2020-2021, PiniponSelvagem
-* All rights reserved.
+* Copyright(C) PiniponSelvagem
 *
 ***********************************************************************
 * Software that is described here, is for illustrative purposes only
@@ -20,7 +19,7 @@
 #include "piniconst.h"
 
 /**
- * @brief	Structure containing button configuration.
+ * @brief	Structure containing button information.
  */
 struct BTN_INFO {
     PIN pin;		    /** Board pin the button is connected to. */
@@ -36,10 +35,10 @@ public:
     /**
      * @brief	Button constructor.
      * @param	btns: Button configuration array.
-     * @param	size: Led pin, default is the built in led pin.
+     * @param	nBtns: Number of buttons in the array.
      * @note    If 'size' is above 'BUTTON_MAX', only the first 'BUTTON_MAX' buttons will be configured with the rest being ignored.
      */
-    Button(BTN_INFO* btns, uint8_t size);
+    Button(BTN_INFO* btns, uint8_t nBtns);
 
     /**
      * @brief	Initializes the configured buttons.
@@ -49,21 +48,14 @@ public:
 
     /**
      * @brief	Checks for button state changes and their active state, and returns it as a mask.
-     * @return	Mask with button current state and their transition state.
-     * 			Each button is represented with 2 bits.
-     * 			1st bit -> 1st button active state (0 -> inactive, 1 -> active)
-     * 			2nd bit -> 1st button transition state (0 -> is repeating last state, 1 -> button transitioned to new state)
-     * 			...
-     * 			31th bit -> 16th button active state
-     * 			32th bit -> 16th button transition state
-     * 	@note	This function updates all buttons last state, meaning that calling this multiple times you might lose their state if you not checking them.
+     * @note	This function updates all buttons last state, meaning that calling this multiple times you might lose their state if you not checking them.
      * 			Clears simulated buttons if they were active.
      */
-    void pullButtonsEvents();
+    void pullEvents();
 
     /**
      * @brief	Get buttons raw snapshot.
-     * @return	Last button snapshot created from last call of \ref 'pullButtonsEvents'.
+     * @return	Last button snapshot created from last call of \ref 'pullEvents'.
      */
     uint32_t getSnapshot();
 
@@ -78,7 +70,7 @@ public:
     /**
      * @brief	Get button changed status. Goes 1 on first press and then right after 0, goes 1 again of release and then right after 0.
      * @param	id: Button id, [0..BUTTON_MAX-1] values outside this range will be declared as invalid button.
-     * @return	Iif button changed since last pull of events. On invalid, returns 'false'.
+     * @return	If button changed since last pull of events. On invalid, returns 'false'.
      * @note	This information is based on last call of \ref 'updateButtonsEvents'.
      */
     bool isChanged(uint8_t id);
@@ -118,15 +110,15 @@ private:
      * @brief	Array of 'BTN_INFO' structures containing all buttons to be configured when \ref 'init' is called.
      * @note	Button definition, see \ref 'BTN_INFO' on how a button is defined.
      */
-    struct BTN_INFO btns[BUTTON_MAX];
+    struct BTN_INFO _btns[BUTTON_MAX];
 
     /**
      * @brief   Number of configured buttons.
      */
-    uint8_t nButtons = 0;
+    uint8_t _nButtons = 0;
 
     /**
-     * @brief	Last state of all 16 buttons, including their transition state.
+     * @brief	Last state of all buttons, including their transition state.
      * 			Mask with button last state and their transition state.
      * 			Each button is represented with 2 bits.
      * 			1st bit -> 1st button active state (0 -> inactive, 1 -> active)
@@ -135,7 +127,7 @@ private:
      * 			31th bit -> 16th button active state
      * 			32th bit -> 16th button transition state
      */
-    uint32_t btnsLastState = 0;
+    uint32_t _btnsLastState = 0;
 };
 
 #endif /* _PINICORE_BUTTON_H_ */

@@ -5,8 +5,7 @@
 * @date		12 Jun 2024
 * @author	PiniponSelvagem
 *
-* Copyright(C) 2024, PiniponSelvagem
-* All rights reserved.
+* Copyright(C) PiniponSelvagem
 *
 ***********************************************************************
 * Software that is described here, is for illustrative purposes only
